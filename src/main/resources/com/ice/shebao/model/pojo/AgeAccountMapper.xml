@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ice.shebao.model.pojo.AgeAccountMapper">
+	<resultMap type="com.ice.shebao.model.AgeAccount" id="ageAccount">
+	    <id property="aid" column="aid"/>
+	    <result property="buildtime" column="buildtime"/>
+	    <result property="type" column="type"/>
+	    <result property="state" column="state"/>
+	    <result property="unitCutIn" column="unitCutIn"/>
+	    <result property="addCutIn" column="addCutIn"/>
+	    <result property="unitSum" column="unitSum"/>
+	    <result property="personAdd" column="personAdd"/>
+	    <result property="personInterest" column="personInterest"/>
+	    <result property="personSum" column="personSum"/>
+	    <result property="accountAmont" column="accountAmont"/>
+	    <result property="serial" column="serial"/>
+	    <result property="identity" column="identity"/>
+	    <result property="areanum" column="areanum"/>
+	</resultMap>
+	
+	<!-- 通过serial和areanum查询养老账户 -->
+	<select id="queryAgeAccount" parameterType="com.ice.shebao.model.AgeAccount" resultType="ageAccount">
+	    select * from 
+	    `t_ageaccount` 
+	    where `serial` = #{serial} 
+	    and `areanum` = #{areanum}
+	</select>
+	
+	<!-- 通过identity和areanum查询养老账户 -->
+	<select id="queryAgeAccountByidentity" parameterType="com.ice.shebao.model.AgeAccount" resultType="ageAccount">
+	    select * from 
+	    `t_ageaccount` 
+	    where `identity` = #{identity} 
+	    and `areanum` = #{areanum}
+	</select>
+	
+	<!-- 插入一条数据 -->
+	<insert id="insertAgeAccount" parameterType="com.ice.shebao.model.AgeAccount">
+	    insert into `t_ageaccount` (
+	    `buildtime`,`type`,`state`,
+	    `unitCutIn`,`addCutIn`,`unitSum`,`personAdd`,
+	    `personInterest`,`personSum`,`accountAmont`,
+	    `serial`,`identity`,`areanum`) 
+	    values(
+	    #{buildtime},#{type},#{state},
+	    #{unitCutIn},#{addCutIn},#{unitSum},#{personAdd},
+	    #{personInterest},#{personSum},#{accountAmont},
+	    #{serial},#{identity},#{areanum});
+	</insert>
+	
+	<!-- 根据aid跟新数据 -->
+	<update id="updateAgeAccount" parameterType="com.ice.shebao.model.AgeAccount">
+	    update `t_ageaccount` 
+	    set
+	    `buildtime` = #{buildtime},`type` = #{type},
+	    `state` = #{state},`unitCutIn` = #{unitCutIn},
+	    `addCutIn` = #{addCutIn},`unitSum`=#{unitSum},`personAdd` = #{personAdd},
+	    `personInterest` = #{personInterest},`personSum` = #{personSum},
+	    `accountAmont` = #{accountAmont},`serial` = #{serial},
+	    `identity` = #{identity},`areanum` = #{areanum} 
+	    where `aid` = #{aid};
+	</update>
+</mapper>

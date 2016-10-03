@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ice.shebao.model.pojo.UserMapper">  
+  
+    <resultMap type="com.ice.shebao.model.User"  id="userMap">  
+        <id property="id" column="id"/>  
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="identitynum" column="identitynum"/>  
+        <result property="phone" column="phone"/>
+        <result property="bank" column="bank"/>
+        <result property="buildtime" column="buildtime"/>
+        <result property="cardnum" column="cardnum"/>
+        <result property="password" column="password"/>
+        <result property="photo" column="photo"/>  
+    </resultMap>  
+      
+    <!-- 根据电话号码/身份证和密码查询用户信息 -->  
+    <select id="queryUserByPhone"  parameterType="com.ice.shebao.model.User" resultMap="userMap">  
+            SELECT * from 
+            t_user 
+            <where>
+                <if test="phone != 'null'">
+                    `phone` = #{phone}
+                </if>
+                <if test="identitynum != 'null'">
+                    And `identitynum` = #{identitynum}
+                </if>
+            </where>
+    </select> 
+    
+    <!-- 根据验证身份是 -->
+    <select id="queryUserByidentityAndName" parameterType="com.ice.shebao.model.User" resultMap="userMap">
+        SELECT * FROM
+        t_user where `identitynum` = #{identitynum} and `name` = #{name}
+    </select>
+    
+    <!-- 根据电话号码修改密码 -->
+    <update id="updatePwdByPhone" parameterType="com.ice.shebao.model.User">
+        update t_user set `password` = #{password} where `phone` = #{phone}
+    </update>
+    
+    
+     
+<!--      <select id="queryById"  parameterType="int" resultType="user">
+     	select * from t_user where id = #{id}
+     </select>
+     
+      <select id="queryByUsername"  parameterType="string" resultType="user">
+     	select * from user where username = #{username}
+     </select>
+     
+     <delete id="deleteUsers"  parameterType="int">
+     	delete from user where id = #{id}
+     </delete>
+    
+     <update id="updateUser" parameterType="User" >
+     	update user set username=#{username} , userpwd = #{userpwd} where id=#{id}
+     </update>
+     
+     <insert id="insertUser"  parameterType="User">
+     	insert into user(username,userpwd) values(#{username},#{userpwd})
+     </insert> -->
+     
+     <!-- 指定parameterType=map 其中map的形式为Map<String,PageBean> map-->  
+
+     
+</mapper>  
