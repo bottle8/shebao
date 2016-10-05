@@ -13,7 +13,10 @@
         <result property="bank" column="bank"/>
         <result property="buildtime" column="buildtime"/>
         <result property="cardnum" column="cardnum"/>
+        <result property="serial" column="serial"/>
+        <result property="areanum" column="areanum"/>
         <result property="password" column="password"/>
+        <result property="unitname" column="unitname"/>
         <result property="photo" column="photo"/>  
     </resultMap>  
       
@@ -37,12 +40,27 @@
         t_user where `identitynum` = #{identitynum} and `name` = #{name}
     </select>
     
+    <select id="queryUserByidentity" parameterType="com.ice.shebao.model.User" resultMap="userMap">
+        SELECT * FROM
+        t_user where `identitynum` = #{identitynum}
+    </select>
+    
     <!-- 根据电话号码修改密码 -->
     <update id="updatePwdByPhone" parameterType="com.ice.shebao.model.User">
         update t_user set `password` = #{password} where `phone` = #{phone}
     </update>
     
-    
+    <insert id="insertUser" parameterType="com.ice.shebao.model.User">
+        insert into 
+        `t_user` 
+        (`name`,`sex`,`identitynum`,
+        `phone`,`bank`,`buildtime`,`cardnum`,
+        `serial`,`areanum`,`password`,`unitname`,`photo`) 
+        values
+        (#{name},#{sex},#{identitynum},
+        #{phone},#{bank},#{buildtime},#{cardnum},
+        #{serial},#{areanum},#{password},#{unitname},#{photo})
+    </insert>
      
 <!--      <select id="queryById"  parameterType="int" resultType="user">
      	select * from t_user where id = #{id}

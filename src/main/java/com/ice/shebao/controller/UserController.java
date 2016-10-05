@@ -52,6 +52,49 @@ public class UserController {
 		logger.info("End>>>>>>>>>>>  login");
 		return json;
 	}
+	
+	/**
+	 * 注册第一步  绑卡
+	 * @param identity		身份证		
+	 * @param shebaocard	社保卡
+	 * @param realName		真实姓名
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/bandcard/{identity}/{shebaocard}/{realname}",method=RequestMethod.POST)
+	public JsonDataObject bandCard(@PathVariable(value="identity")String identity,
+			@PathVariable(value="shebaocard")String shebaocard,
+			@PathVariable(value="realname")String realName) {
+		JsonDataObject json = null;
+		try {
+			json = service.bandCard(identity, shebaocard, realName);
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+		}
+		return json;
+	}
+	
+	/**
+	 * 用户注册
+	 * @param phone			电话号码
+	 * @param password		密码
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/regist/{phone}/{password}/{identity}",method=RequestMethod.POST)
+	public JsonDataObject regist(@PathVariable(value="phone")String phone,
+			@PathVariable(value="password")String password,
+			@PathVariable(value="identity")String identity){
+		JsonDataObject json = null;
+		
+		try {
+			json = service.regist(phone, password, identity);
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+		}
+		
+		return json;
+	}
 
 	
 	/**
@@ -59,23 +102,17 @@ public class UserController {
 	 * @param identity
 	 * @param name
 	 */
-	@RequestMapping(value="/verifyIdentity",method=RequestMethod.POST)
-	public void verifIdentity(@RequestParam(value="identity") String identity,
-			@RequestParam(value="name") String name){
-		User userCase = new User();
-		userCase.setIdentitynum(identity);
-		userCase.setName(name);
+	@ResponseBody
+	@RequestMapping(value="/verifyIdentity/{identity}/{name}",method=RequestMethod.POST)
+	public JsonDataObject verifIdentity(@PathVariable(value="identity") String identity,
+			@PathVariable(value="name") String name){
+		JsonDataObject json = null;
 		try {
-//			User user = userservice.queryUserByidentityAndName(userCase);
-//			if (user != null) {
-//				//用户存在
-//			}else{
-//				//用户不存在
-//			}
+			json = service.verifIdentityAndName(identity, name);
 		} catch (Exception e) {
-			//服务器异常
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 		}
+		return json;
 	}
 	
 	/**
@@ -83,21 +120,21 @@ public class UserController {
 	 * @param phone
 	 * @param password
 	 */
-	@RequestMapping(value="updatePwdByPhone" , method=RequestMethod.POST)
-	public void updatePwdByPhone(@RequestParam(value="phone")String phone,
-			@RequestParam(value="password") String password){
-		User userCase = new User();
-		userCase.setPhone(phone);
-		userCase.setPassword(password);
-		
+	@ResponseBody
+	@RequestMapping(value="/updatePwdByPhone/{phone}/{password}" , method=RequestMethod.POST)
+	public JsonDataObject updatePwdByPhone(@PathVariable(value="phone")String phone,
+			@PathVariable(value="password") String password){
+		JsonDataObject json = new JsonDataObject();
 		try {
-//			userservice.updatePwdByPhone(userCase);
-			//修改成功
-			
+			service.updatePwdByPhone(phone,password);
+			json.setMessage("修改成功");
+			json.setState("0");
 		} catch (Exception e) {
-			//修改密码失败
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			json.setMessage("修改失败");
+			json.setState("1");
 		}
+		return json;
 	}
 	
 }

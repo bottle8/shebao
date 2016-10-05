@@ -1,4 +1,4 @@
-package com.ice.shebao.service;
+package com.ice.shebao.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import com.ice.shebao.factory.DaoFactory;
 import com.ice.shebao.model.AgeAccount;
 import com.ice.shebao.model.JsonDataObject;
 import com.ice.shebao.model.User;
+import com.ice.shebao.service.AgeAccountService;
 
 public class AgeAccountServiceImpl implements AgeAccountService {
 
